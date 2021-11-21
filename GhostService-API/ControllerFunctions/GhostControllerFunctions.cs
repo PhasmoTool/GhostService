@@ -13,6 +13,7 @@ using GhostService_API.Data_Layer.Repos;
 using GhostService_API.Data_Layer.Services;
 using GhostService_API.Models;
 using System.Collections.Generic;
+using GhostService_API.Data_Layer.Repos.DBContext;
 
 namespace GhostService_API.ControllerFunctions
 {
@@ -20,9 +21,12 @@ namespace GhostService_API.ControllerFunctions
     {
         private GhostService ghostService;
 
-        public GhostControllerFunctions(IGhostRepo repository)
+        private GhostServiceDBContext context;
+
+        public GhostControllerFunctions(IGhostRepo repository, GhostServiceDBContext context)
         {
             ghostService = new GhostService(repository);
+            this.context = context;
         }
 
         [FunctionName("GetGhosts")]
@@ -33,6 +37,12 @@ namespace GhostService_API.ControllerFunctions
             List<Ghost> ghosts = ghostService.GetAllGhosts().ToList();
 
             return new OkObjectResult(ghosts);
+        }
+
+        [FunctionName("AddGhost")]
+        public async Task<IActionResult> PostGhost([HttpTrigger(AuthorizationLevel.Function, "post", Route = "ghosts")] HttpRequest req)
+        {
+            return new OkObjectResult(null);
         }
     }
 }
