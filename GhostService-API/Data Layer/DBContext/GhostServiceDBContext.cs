@@ -21,9 +21,9 @@ namespace GhostService_API.Data_Layer.DBContext
 
     public class GhostServiceDBContext : DbContext
     {
-        public DbSet<Ghost> ghosts { get; set; }
-        public DbSet<Evidence> evidence { get; set; }
-        public DbSet<GhostEvidence> ghostEvidence { get; set; }
+        public DbSet<Ghost> Ghost { get; set; }
+        public DbSet<Evidence> Evidence { get; set; }
+        public DbSet<GhostEvidence> GhostEvidence { get; set; }
 
         public GhostServiceDBContext(DbContextOptions<GhostServiceDBContext> options) : base(options)
         {

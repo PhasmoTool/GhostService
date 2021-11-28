@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace GhostService_API.Models.ResponseModels
+namespace GhostService_API.Models.RequestModels
 {
-    public class EvidenceResponse
+    public class EvidenceRequestModel
     {
-        public long Id { get; set; }
         public string Name { get; set; }
         public EvidenceType EvidenceType { get; set; }
     }

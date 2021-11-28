@@ -1,6 +1,4 @@
-﻿using GhostService_API.Data_Layer.Repos;
-using GhostService_API.Models.ResponseModels;
-using GhostService_API.Models;
+﻿using GhostService_API.Models.ResponseModels;
 using GhostService_API.Models;
 using System;
 using System.Collections.Generic;
@@ -14,7 +12,7 @@ namespace GhostService_API.Data_Layer.Services
 {
     public class GhostService
     {
-        GhostServiceDBContext context;
+        readonly GhostServiceDBContext context;
 
         public GhostService(GhostServiceDBContext context)
         {
@@ -23,7 +21,7 @@ namespace GhostService_API.Data_Layer.Services
 
         public async Task<ICollection<GhostResponse>> GetAllGhosts()
         {
-            ICollection<Ghost> ghosts = await context.ghosts.ToListAsync();
+            ICollection<Ghost> ghosts = await context.Ghost.ToListAsync();
 
             List<GhostResponse> responseModels = new List<GhostResponse>();
 
@@ -35,7 +33,7 @@ namespace GhostService_API.Data_Layer.Services
                     evidences.Add(item.Evidence);
                 }
 
-                responseModels.Add(GhostModelConverter.ConvertDatabaseModeltoResponseModel(ghost, evidences));
+                responseModels.Add(GhostModelConverter.ConvertDatabaseModelToResponseModel(ghost, evidences));
             }
 
             return responseModels;

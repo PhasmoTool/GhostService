@@ -7,29 +7,41 @@ using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using GhostService_API.Data_Layer.DBContext;
+using GhostService_API.Data_Layer.Services;
+using GhostService_API.Models.RequestModels;
+using GhostService_API.Models.ResponseModels;
+using System.Collections.Generic;
 
 namespace GhostService_API.ControllerFunctions
 {
-    public static class EvidenceControllerFunctions
+    public class EvidenceControllerFunctions
     {
-        [FunctionName("EvidenceControllerFunctions")]
-        public static async Task<IActionResult> Run(
-            [HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)] HttpRequest req,
-            ILogger log)
+        private EvidenceService service;
+
+        public EvidenceControllerFunctions(GhostServiceDBContext context)
         {
-            log.LogInformation("C# HTTP trigger function processed a request.");
+            service = new EvidenceService(context);
+        }
 
-            string name = req.Query["name"];
-
+        [FunctionName("GetEvidence")]
+        public async Task<IActionResult> GetEvidence([HttpTrigger(AuthorizationLevel.Function, "get", Route = "evidence")] HttpRequest req)
+        {
             string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
-            dynamic data = JsonConvert.DeserializeObject(requestBody);
-            name = name ?? data?.name;
 
-            string responseMessage = string.IsNullOrEmpty(name)
-                ? "This HTTP triggered function executed successfully. Pass a name in the query string or in the request body for a personalized response."
-                : $"Hello, {name}. This HTTP triggered function executed successfully.";
+            ICollection<EvidenceResponse> evidence = await service.GetAllEvidences();
 
-            return new OkObjectResult(responseMessage);
+            return new OkObjectResult(evidence);
+        }
+
+        [FunctionName("AddEvidence")]
+        public async Task<IActionResult> PostEvidence([HttpTrigger(AuthorizationLevel.Function, "post", Route = "evidence")] HttpRequest req)
+        {
+            string body = await new StreamReader(req.Body).ReadToEndAsync();
+            EvidenceRequestModel reqModel = JsonConvert.DeserializeObject<EvidenceRequestModel>(body);
+            EvidenceResponse response = await service.PostEvidence(reqModel);
+
+            return new CreatedResult("GetEvidence", response);
         }
     }
 }

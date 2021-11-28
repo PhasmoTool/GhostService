@@ -1,4 +1,5 @@
 ﻿using GhostService_API.Models;
+using GhostService_API.Models.RequestModels;
 using GhostService_API.Models.ResponseModels;
 using System;
 using System.Collections.Generic;
@@ -13,15 +14,27 @@ namespace GhostService_API.Converters
 
         }
 
-        public static EvidenceResponse ConvertDatabaseModeltoResponseModel(Evidence databaseModel)
+        public static EvidenceResponse ConvertDatabaseModelToResponseModel(Evidence databaseModel)
         {
-            EvidenceResponse responseModel = new EvidenceResponse();
-
-            responseModel.Id = databaseModel.Id;
-            responseModel.evidenceType = databaseModel.EvidenceType;
-            responseModel.Name = databaseModel.Name;
+            EvidenceResponse responseModel = new EvidenceResponse
+            {
+                Id = databaseModel.Id,
+                EvidenceType = databaseModel.EvidenceType,
+                Name = databaseModel.Name
+            };
 
             return responseModel;
+        }
+
+        public static Evidence ConvertRequestModelToDatabaseModel(EvidenceRequestModel requestModel)
+        {
+            Evidence databaseModel = new Evidence()
+            {
+                Name = requestModel.Name,
+                EvidenceType = requestModel.EvidenceType
+            };
+
+            return databaseModel;
         }
     }
 }

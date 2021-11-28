@@ -19,18 +19,17 @@ namespace GhostService_API.ControllerFunctions
 {
     public class GhostControllerFunctions
     {
-        private GhostService ghostService;
+        private readonly GhostService ghostService;
 
         public GhostControllerFunctions(GhostServiceDBContext context)
         {
             ghostService = new GhostService(context);
-
         }
 
         [FunctionName("GetGhosts")]
         public async Task<IActionResult> GetAllGhosts([HttpTrigger(AuthorizationLevel.Function, "get", Route = "ghosts")] HttpRequest req)
         {
-            string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
+            //string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
 
             ICollection<GhostResponse> ghosts = await ghostService.GetAllGhosts();
 
