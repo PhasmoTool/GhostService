@@ -1,7 +1,5 @@
 ﻿using GhostService_API;
-using GhostService_API.Data_Layer.Repos;
-using GhostService_API.Data_Layer.Repos.DBContext;
-using GhostService_API.Data_Layer.Repos.HC;
+using GhostService_API.Data_Layer.DBContext;
 using Microsoft.Azure.Functions.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
@@ -19,8 +17,6 @@ namespace GhostService_API
     {
         public override void Configure(IFunctionsHostBuilder builder)
         {
-            builder.Services.AddTransient<IGhostRepo, HCGhostRepo>();
-
             string SqlConnection = Environment.GetEnvironmentVariable("SqlConnectionString");
             builder.Services.AddDbContext<GhostServiceDBContext>(
               options => SqlServerDbContextOptionsExtensions.UseSqlServer(options, SqlConnection));

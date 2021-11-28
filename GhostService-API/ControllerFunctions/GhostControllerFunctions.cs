@@ -9,11 +9,11 @@ using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
-using GhostService_API.Data_Layer.Repos;
 using GhostService_API.Data_Layer.Services;
 using GhostService_API.Models;
 using System.Collections.Generic;
-using GhostService_API.Data_Layer.Repos.DBContext;
+using GhostService_API.Data_Layer.DBContext;
+using GhostService_API.Models.ResponseModels;
 
 namespace GhostService_API.ControllerFunctions
 {
@@ -21,12 +21,10 @@ namespace GhostService_API.ControllerFunctions
     {
         private GhostService ghostService;
 
-        private GhostServiceDBContext context;
-
-        public GhostControllerFunctions(IGhostRepo repository, GhostServiceDBContext context)
+        public GhostControllerFunctions(GhostServiceDBContext context)
         {
-            ghostService = new GhostService(repository);
-            this.context = context;
+            ghostService = new GhostService(context);
+
         }
 
         [FunctionName("GetGhosts")]
@@ -34,7 +32,7 @@ namespace GhostService_API.ControllerFunctions
         {
             string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
 
-            List<Ghost> ghosts = ghostService.GetAllGhosts().ToList();
+            ICollection<GhostResponse> ghosts = await ghostService.GetAllGhosts();
 
             return new OkObjectResult(ghosts);
         }

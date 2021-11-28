@@ -5,7 +5,7 @@ using System.Text;
 using GhostService_API.Models;
 using Microsoft.EntityFrameworkCore.Design;
 
-namespace GhostService_API.Data_Layer.Repos.DBContext
+namespace GhostService_API.Data_Layer.DBContext
 {
     public class GhostServiceContextFactory : IDesignTimeDbContextFactory<GhostServiceDBContext>
     {
@@ -21,6 +21,10 @@ namespace GhostService_API.Data_Layer.Repos.DBContext
 
     public class GhostServiceDBContext : DbContext
     {
+        public DbSet<Ghost> ghosts { get; set; }
+        public DbSet<Evidence> evidence { get; set; }
+        public DbSet<GhostEvidence> ghostEvidence { get; set; }
+
         public GhostServiceDBContext(DbContextOptions<GhostServiceDBContext> options) : base(options)
         {
 
@@ -32,10 +36,5 @@ namespace GhostService_API.Data_Layer.Repos.DBContext
 
             builder.Entity<GhostEvidence>().HasKey(i => new { i.EvidenceId, i.GhostId });
         }
-
-
-        public DbSet<Ghost> ghosts { get; set; }
-        public DbSet<Evidence> evidence { get; set; }
-        public DbSet<GhostEvidence> ghostEvidence { get; set; }
     }
 }
