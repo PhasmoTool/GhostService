@@ -14,6 +14,7 @@ using GhostService_API.Models;
 using System.Collections.Generic;
 using GhostService_API.Data_Layer.DBContext;
 using GhostService_API.Models.ResponseModels;
+using GhostService_API.Models.RequestModels;
 
 namespace GhostService_API.ControllerFunctions
 {
@@ -39,7 +40,11 @@ namespace GhostService_API.ControllerFunctions
         [FunctionName("AddGhost")]
         public async Task<IActionResult> PostGhost([HttpTrigger(AuthorizationLevel.Function, "post", Route = "ghosts")] HttpRequest req)
         {
-            return new OkObjectResult(null);
+            string body = await new StreamReader(req.Body).ReadToEndAsync();
+            GhostRequestModel reqModel = JsonConvert.DeserializeObject<GhostRequestModel>(body);
+            GhostResponse response = await ghostService.PostGhost(reqModel);
+
+            return new CreatedResult("GetEvidence", response);
         }
     }
 }

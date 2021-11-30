@@ -7,6 +7,7 @@ using GhostService_API.Converters;
 using GhostService_API.Data_Layer.DBContext;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
+using GhostService_API.Models.RequestModels;
 
 namespace GhostService_API.Data_Layer.Services
 {
@@ -19,9 +20,26 @@ namespace GhostService_API.Data_Layer.Services
             this.context = context;
         }
 
+        public async Task<GhostResponse> PostGhost(GhostRequestModel requestModel)
+        {
+            Ghost databaseModel = GhostModelConverter.ConvertRequestModelToDatabaseModel(requestModel);
+
+            context.Ghost.Add(databaseModel);
+            await context.SaveChangesAsync();
+
+            List<Evidence> evidences = new List<Evidence>();
+            foreach (var item in databaseModel.Evidence)
+            {
+                Evidence evid = await context.Evidence.FindAsync(item.EvidenceId);
+                evidences.Add(evid);
+            }
+
+            return GhostModelConverter.ConvertDatabaseModelToResponseModel(databaseModel, evidences);
+        }
+
         public async Task<ICollection<GhostResponse>> GetAllGhosts()
         {
-            ICollection<Ghost> ghosts = await context.Ghost.ToListAsync();
+            ICollection<Ghost> ghosts = await context.Ghost.Include(ghost => ghost.Evidence).ToListAsync();
 
             List<GhostResponse> responseModels = new List<GhostResponse>();
 
@@ -30,7 +48,8 @@ namespace GhostService_API.Data_Layer.Services
                 List<Evidence> evidences = new List<Evidence>();
                 foreach(var item in ghost.Evidence)
                 {
-                    evidences.Add(item.Evidence);
+                    Evidence evid = await context.Evidence.FindAsync(item.EvidenceId);
+                    evidences.Add(evid);
                 }
 
                 responseModels.Add(GhostModelConverter.ConvertDatabaseModelToResponseModel(ghost, evidences));

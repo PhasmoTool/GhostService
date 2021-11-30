@@ -16,14 +16,21 @@ namespace GhostService_API.Converters
 
         public static EvidenceResponse ConvertDatabaseModelToResponseModel(Evidence databaseModel)
         {
-            EvidenceResponse responseModel = new EvidenceResponse
+            if(databaseModel != null)
             {
-                Id = databaseModel.Id,
-                EvidenceType = databaseModel.EvidenceType,
-                Name = databaseModel.Name
-            };
+                EvidenceResponse responseModel = new EvidenceResponse
+                {
+                    Id = databaseModel.Id,
+                    EvidenceType = databaseModel.EvidenceType,
+                    Name = databaseModel.Name
+                };
 
-            return responseModel;
+                return responseModel;
+            }
+            else
+            {
+                return null;
+            }
         }
 
         public static Evidence ConvertRequestModelToDatabaseModel(EvidenceRequestModel requestModel)

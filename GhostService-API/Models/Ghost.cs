@@ -11,7 +11,7 @@ namespace GhostService_API.Models
         public long Id { get; set; }
         [Required]
         public string Name { get; set; }
-        public ICollection<GhostEvidence> Evidence { get; set; }
+        public virtual ICollection<GhostEvidence> Evidence { get; set; }
 
         public Ghost()
         {
