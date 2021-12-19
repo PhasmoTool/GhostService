@@ -21,19 +21,13 @@ namespace GhostService_API.Data_Layer.Services
 
         public async Task<ICollection<GhostResponse>> GetAllGhosts()
         {
-            ICollection<Ghost> ghosts = await context.Ghost.ToListAsync();
+            ICollection<Ghost> ghosts = await context.Ghost.Include(ghost => ghost.Evidence).ThenInclude(evid => evid.Evidence).ToListAsync();
 
             List<GhostResponse> responseModels = new List<GhostResponse>();
 
             foreach(Ghost ghost in ghosts)
             {
-                List<Evidence> evidences = new List<Evidence>();
-                foreach(var item in ghost.Evidence)
-                {
-                    evidences.Add(item.Evidence);
-                }
-
-                responseModels.Add(GhostModelConverter.ConvertDatabaseModelToResponseModel(ghost, evidences));
+                responseModels.Add(GhostModelConverter.ConvertDatabaseModelToResponseModel(ghost));
             }
 
             return responseModels;

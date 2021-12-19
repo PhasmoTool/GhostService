@@ -7,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Configuration;
 
 [assembly: FunctionsStartup(typeof(Startup))]
 
@@ -17,7 +18,7 @@ namespace GhostService_API
     {
         public override void Configure(IFunctionsHostBuilder builder)
         {
-            string SqlConnection = Environment.GetEnvironmentVariable("SqlConnectionString");
+            string SqlConnection = Environment.GetEnvironmentVariable("ConnectionStrings:SqlConnectionString");
             builder.Services.AddDbContext<GhostServiceDBContext>(
               options => SqlServerDbContextOptionsExtensions.UseSqlServer(options, SqlConnection));
         }

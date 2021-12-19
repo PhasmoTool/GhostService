@@ -14,7 +14,7 @@ namespace GhostService_API.Converters
 
         }
 
-        public static GhostResponse ConvertDatabaseModelToResponseModel(Ghost databaseModel, List<Evidence> evidenceDatabaseModels)
+        public static GhostResponse ConvertDatabaseModelToResponseModel(Ghost databaseModel)
         {
             GhostResponse responseModel = new GhostResponse
             {
@@ -23,9 +23,9 @@ namespace GhostService_API.Converters
             };
 
             List<EvidenceResponse> evidences = new List<EvidenceResponse>();
-            foreach(Evidence item in evidenceDatabaseModels)
+            foreach(GhostEvidence item in databaseModel.Evidence)
             {
-                evidences.Add(EvidenceModelConverter.ConvertDatabaseModelToResponseModel(item));
+                evidences.Add(EvidenceModelConverter.ConvertDatabaseModelToResponseModel(item.Evidence));
             };
 
             responseModel.Evidences = evidences;
