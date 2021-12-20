@@ -5,7 +5,10 @@ VisualStudioVersion = 16.0.31702.278
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GhostService-API", "GhostService-API\GhostService-API.csproj", "{2D14DEFC-10AB-4214-8A40-5F52F7C72A06}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ghost-Service-Test", "Ghost-Service-Test\Ghost-Service-Test.csproj", "{B7531F8D-3A48-4DB0-85F9-E6FC33F30C3B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ghost-Service-Test", "Ghost-Service-Test\Ghost-Service-Test.csproj", "{B7531F8D-3A48-4DB0-85F9-E6FC33F30C3B}"
+	ProjectSection(ProjectDependencies) = postProject
+		{2D14DEFC-10AB-4214-8A40-5F52F7C72A06} = {2D14DEFC-10AB-4214-8A40-5F52F7C72A06}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

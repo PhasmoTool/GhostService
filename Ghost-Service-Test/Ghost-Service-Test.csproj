@@ -19,4 +19,8 @@
 	<PackageReference Include="OpenCover" Version="4.7.1221" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\GhostService-API\GhostService-API.csproj" />
+  </ItemGroup>
+
 </Project>
