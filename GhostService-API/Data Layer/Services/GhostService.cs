@@ -34,7 +34,7 @@ namespace GhostService_API.Data_Layer.Services
                 evidences.Add(evid);
             }
 
-            return GhostModelConverter.ConvertDatabaseModelToResponseModel(databaseModel, evidences);
+            return GhostModelConverter.ConvertDatabaseModelToResponseModel(databaseModel);
         }
 
         public async Task<ICollection<GhostResponse>> GetAllGhosts()
