@@ -13,7 +13,7 @@ namespace GhostService_API.Models
         public string Name { get; set; }
         [Required]
         public EvidenceType EvidenceType { get; set; }
-        public ICollection<GhostEvidence> Ghosts { get; set; }
+        public virtual ICollection<GhostEvidence> Ghosts { get; set; }
 
         public Evidence()
         {

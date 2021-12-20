@@ -7,9 +7,9 @@ namespace GhostService_API.Models
     public class GhostEvidence
     {
         public long GhostId { get; set; }
-        public Ghost Ghost { get; set; }
+        public virtual Ghost Ghost { get; set; }
 
         public long EvidenceId { get; set; }
-        public Evidence Evidence { get; set; }
+        public virtual Evidence Evidence { get; set; }
     }
 }
